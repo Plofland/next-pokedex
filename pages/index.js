@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
-
+import Link from 'next/Link';
 
 export default function Home({ pokemon }) {
-	console.log('Home State', pokemon);
 	return (
 		<div>
 			<Head>
@@ -19,13 +18,27 @@ export default function Home({ pokemon }) {
 				<h1 className="text-4xl mb-8 text-center">
 					NextJS Pokedex
 				</h1>
-        <ul>
-          {pokemon.map((pokeman) => {
-            <li key="index">
-
-            </li>
-          })}
-        </ul>
+				<ul>
+					{pokemon.map((pokeman, index) => (
+						<li key={index}>
+							<Link
+								href={`/pokemon?id=${
+									index + 1
+								}`}
+							>
+								<a className="border p-4 border-gray my-2 capitalize flex items-center text-lg bg-gray-200 rounded-md">
+									<img
+										className="w-20 h-20 mr-3"
+										src={pokeman.image}
+										alt={pokeman.name}
+									/>
+									<span className="mr-2 font-bold">{index + 1}.</span>
+									{pokeman.name}
+								</a>
+							</Link>
+						</li>
+					))}
+				</ul>
 			</Layout>
 		</div>
 	);
