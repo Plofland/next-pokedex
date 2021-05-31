@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 
+
 export default function Home({ pokemon }) {
-	console.log(pokemon);
+	console.log('Home State', pokemon);
 	return (
 		<div>
 			<Head>
@@ -18,6 +19,13 @@ export default function Home({ pokemon }) {
 				<h1 className="text-4xl mb-8 text-center">
 					NextJS Pokedex
 				</h1>
+        <ul>
+          {pokemon.map((pokeman) => {
+            <li key="index">
+
+            </li>
+          })}
+        </ul>
 			</Layout>
 		</div>
 	);
@@ -28,20 +36,19 @@ export default function Home({ pokemon }) {
 //At build time, it will run this function, make a call to the Pokemon API and then pass that info into this index page
 //This way, it is a fully static page by the time it gets pulled down by the user
 
-export async function getStaticPros(context) {
+export async function getStaticProps(context) {
 	try {
 		const res = await fetch(
 			'https://pokeapi.co/api/v2/pokemon?limit=151'
 		);
-		console.log(res);
 		const { results } = await res.json();
-		const pokemon = results.map((result, index) => {
+		const pokemon = results.map((pokeman, index) => {
 			const paddedIndex = ('00' + (index + 1)).slice(
 				-3
 			);
 			const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedIndex}.png`;
 			return {
-				...result,
+				...pokeman,
 				image
 			};
 		});
